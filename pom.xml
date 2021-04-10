@@ -24,5 +24,6 @@
         <module>study-01-springboot</module>
         <module>study-02-eureka-server</module>
         <module>study-03-eureka-client</module>
+        <module>study-04-ribbon-consumer</module>
     </modules>
 </project>
