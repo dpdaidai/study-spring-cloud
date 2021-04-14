@@ -75,4 +75,16 @@ public class HelloController {
     }
 
 
+    @RequestMapping(value = "/put", method = RequestMethod.PUT)
+    public User put(int id, String name, @RequestBody User user) {
+        logger.info(user.toString());
+        logger.info(id + "," + name);
+        return user;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public String delete(int id, String name) {
+        logger.info(id + "," + name);
+        return id + "," + name;
+    }
 }

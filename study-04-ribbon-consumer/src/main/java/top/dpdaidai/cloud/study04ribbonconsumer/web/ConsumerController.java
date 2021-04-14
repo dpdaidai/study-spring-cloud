@@ -111,4 +111,22 @@ public class ConsumerController {
         return uri.toString();
     }
 
+    //使用urlVariables发送PUT请求 , put()方法没有返回值 , 所以也不需要设置返回的类型
+    @RequestMapping(value = "/testPut", method = RequestMethod.GET)
+    public String testPut(Integer id, String name) {
+        User user = new User(id, name);
+        restTemplate.put("http://HELLO-SERVICE/put?id={1}&name={2}", user, id, name);
+        return "ok";
+    }
+
+    //使用urlVariables发送DELETE请求
+    //delete()方法没有返回值 , 所以也不需要设置返回的类型
+    //delete()方法也不能携带请求对象
+    @RequestMapping(value = "/testDelete", method = RequestMethod.GET)
+    public String testDelete(Integer id, String name) {
+        restTemplate.delete("http://HELLO-SERVICE/delete?id={1}&name={2}", id, name);
+        return "ok";
+    }
+
+
 }
