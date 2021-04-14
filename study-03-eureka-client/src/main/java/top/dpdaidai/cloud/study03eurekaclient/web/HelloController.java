@@ -2,9 +2,13 @@ package top.dpdaidai.cloud.study03eurekaclient.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import top.dpdaidai.cloud.study03eurekaclient.entity.User;
+
+import java.util.Map;
 
 /**
  * @Author chenpantao
@@ -41,5 +45,34 @@ public class HelloController {
     public String getForObject(Integer id, String name) {
         return id + "," + name;
     }
+
+    @RequestMapping(value = "/postForEntity/paramArray", method = RequestMethod.POST)
+    public User postForEntityTestParamArray(int id, String name, @RequestBody User user) {
+        logger.info(user.toString());
+        logger.info(id + "," + name);
+        return user;
+    }
+
+    @RequestMapping(value = "/postForEntity/paramMap", method = RequestMethod.POST)
+    public Map postForEntityTestParamMap(int id, String name, @RequestBody Map map) {
+        logger.info(map.toString());
+        logger.info(id + "," + name);
+        return map;
+    }
+
+    @RequestMapping(value = "/postForObject/paramArray", method = RequestMethod.POST)
+    public User postForObjectTestParamArray(int id, String name, @RequestBody User user) {
+        logger.info(user.toString());
+        logger.info(id + "," + name);
+        return user;
+    }
+
+    @RequestMapping(value = "/postForLocation/paramArray", method = RequestMethod.POST)
+    public User postForLocationTestParamArray(int id, String name, @RequestBody User user) {
+        logger.info(user.toString());
+        logger.info(id + "," + name);
+        return user;
+    }
+
 
 }

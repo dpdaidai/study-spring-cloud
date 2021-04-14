@@ -36,15 +36,14 @@ public class LogFilter implements Filter {
             logger.info("Request Info:  {}", RequestUtil.requestInfo(request1));
         }
 
+        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+        logger.info("url : {} , host : {} , service_id : {}", ((HttpServletRequest) servletRequest).getRequestURI(), localServiceInstance.getHost(), localServiceInstance.getServiceId());
+
         //对于非OPTIONS类请求记录日志
         //备注OPTIONS类请求有如下特征：
         //无请求体 成功的响应有响应体 安全 幂等性 不可缓存 不允许表单
         //OPTIONS一般用于：检测服务器所支持的请求方法、CORS中的预检请求
         filterChain.doFilter(servletRequest, servletResponse);
-
-        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
-        logger.info("url : {} , host : {} , service_id : {}", ((HttpServletRequest) servletRequest).getRequestURI(), localServiceInstance.getHost(), localServiceInstance.getServiceId());
-
     }
 
     @Override
