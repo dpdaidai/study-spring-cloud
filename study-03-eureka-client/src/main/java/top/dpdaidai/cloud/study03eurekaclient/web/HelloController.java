@@ -29,4 +29,32 @@ public class HelloController {
         return "hello";
     }
 
+    @RequestMapping(value = "/getForEntity/paramArray", method = RequestMethod.GET)
+    public String paramArray(Integer id, String name) {
+        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+        logger.info("/getForEntity/paramArray , host : {} , service_id : {}", localServiceInstance.getHost(), localServiceInstance.getServiceId());
+        return id + "," + name;
+    }
+
+    @RequestMapping(value = "/getForEntity/paramMap", method = RequestMethod.GET)
+    public String paramMap(Integer id, String name) {
+        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+        logger.info("/getForEntity/paramMap , host : {} , service_id : {}", localServiceInstance.getHost(), localServiceInstance.getServiceId());
+        return id + "," + name;
+    }
+
+    @RequestMapping(value = "/getForEntity/paramURI", method = RequestMethod.GET)
+    public String paramURI(Integer id, String name) {
+        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+        logger.info("/getForEntity/paramURI , host : {} , service_id : {}", localServiceInstance.getHost(), localServiceInstance.getServiceId());
+        return id + "," + name;
+    }
+
+    @RequestMapping(value = "/getForObject", method = RequestMethod.GET)
+    public String getForObject(Integer id, String name) {
+        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+        logger.info("/getForObject , host : {} , service_id : {}", localServiceInstance.getHost(), localServiceInstance.getServiceId());
+        return id + "," + name;
+    }
+
 }

@@ -23,7 +23,7 @@ public class HelloController {
     public String index() {
 
         //自定义统计指标信息
-        counterService.increment("top.dpdaidai.hello.count");
+//        counterService.increment("top.dpdaidai.hello.count");
 
         return "hello boot";
     }
