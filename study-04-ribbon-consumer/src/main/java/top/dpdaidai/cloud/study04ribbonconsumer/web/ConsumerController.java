@@ -1,6 +1,7 @@
 package top.dpdaidai.cloud.study04ribbonconsumer.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +11,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import top.dpdaidai.cloud.study04ribbonconsumer.entity.User;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +34,13 @@ public class ConsumerController {
 
     //使用urlVariables发送GET请求
     @RequestMapping(value = "/getForEntity/paramArray", method = RequestMethod.GET)
-    public String paramArray(Integer id, String name) {
+    public String paramArray(Integer id, String name, HttpServletResponse response) {
         ResponseEntity<String> forEntity =
                 restTemplate.getForEntity(
                         "http://HELLO-SERVICE/getForEntity/paramArray?id={1}&name={2}", String.class, id, name);
+        HttpHeaders headers = forEntity.getHeaders();
+        System.out.println(headers.get("serviceId-host-post").get(0));
+        response.addHeader("serviceId-host-post", headers.get("serviceId-host-post").get(0));
         return forEntity.getBody();
     }
 

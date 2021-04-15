@@ -1,4 +1,4 @@
-package top.dpdaidai.cloud.study03eurekaclient.filter;
+package top.dpdaidai.cloud.study04ribbonconsumer.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +40,8 @@ public class LogFilter implements Filter {
         }
 
         //打印当前服务的ip , service_id
-        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
-        logger.info("url : {} , host : {} , service_id : {}", ((HttpServletRequest) servletRequest).getRequestURI(), localServiceInstance.getHost(), localServiceInstance.getServiceId());
-
-        //为返回值设置
-        HttpServletResponse servletResponse1 = (HttpServletResponse) servletResponse;
-        servletResponse1.addHeader("serviceId-host-post",
-                localServiceInstance.getServiceId() + ":" + localServiceInstance.getHost() + ":" + localServiceInstance.getPort());
+//        ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
+//        logger.info("url : {} , host : {} , service_id : {}", ((HttpServletRequest) servletRequest).getRequestURI(), localServiceInstance.getHost(), localServiceInstance.getServiceId());
 
         //对于非OPTIONS类请求记录日志
         //备注OPTIONS类请求有如下特征：
