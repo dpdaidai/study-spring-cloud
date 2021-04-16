@@ -89,29 +89,47 @@ public class S3_UserService {
         });
     }
 
-    //如果defaultUser方法不是一个稳定的逻辑 , 它依然可能会发生异常
-    //那么也可以在这个方法上再次指定降级服务
+    //1  如果defaultUser方法不是一个稳定的逻辑 , 它依然可能会发生异常 , 那么也可以在这个方法上再次指定降级服务
     @HystrixCommand(fallbackMethod = "defaultUserSecond")
     public User defaultUser(Long id, Throwable throwable) {
+        logger.info("user service : defaultUser()");
 
         //超时异常HystrixTimeoutException
         logger.info(throwable.getMessage());
         throwable.printStackTrace();
 
-        logger.info("user service : defaultUser()");
         User user = new User();
         user.setId(1 / (new Random().nextInt(2) - 1));
         return user;
     }
 
+
+    //2  除了HystrixBadRequestException之外的异常, 都会被Hystrix认为是命令执行失败, 并触发降级降级服务.
+    //3  ignoreExceptions 忽略的异常类型 , 会被包装在HystrixBadRequestException中抛出 , 不再触发后续的fallback逻辑
+    //4  defaultUser fallback is a hystrix command. exception: 'class java.lang.ArithmeticException' occurred
+    //   in fallback was ignored and wrapped to HystrixBadRequestException.
+    //5  向上一层层抛异常后 , 最后返回给用户的就是异常信息 , 需要后台全局捕获后处理
+    @HystrixCommand(fallbackMethod = "defaultUserThird", ignoreExceptions = ArithmeticException.class)
     public User defaultUserSecond(Long id, Throwable throwable) {
+        logger.info("user service : defaultUserSecond()");
 
         //defaultUser() 方法会抛出除0异常 , 这里可以打印出来 / by zero
         logger.info(throwable.getMessage());
         throwable.printStackTrace();
 
-        logger.info("user service : defaultUserSecond()");
-        return new User();
+        User user = new User();
+        user.setId(1 / (new Random().nextInt(2) - 1));
+        return user;
     }
 
+    //由于defaultUserSecond()已经忽略了ArithmeticException , 这个方法永远不会被调用
+    public User defaultUserThird(Long id, Throwable throwable) {
+
+        logger.info("user service : defaultUserThird()");
+
+        logger.info(throwable.getMessage());
+        throwable.printStackTrace();
+
+        return new User();
+    }
 }
