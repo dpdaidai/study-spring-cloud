@@ -79,7 +79,7 @@ public class S1_ConsumerController {
 
     //使用urlVariables发送POST请求 , 并返回User对象 , 使用该发送发送的对象需要使用@RequestBody接收
     @RequestMapping(value = "/postForEntity/paramArray", method = RequestMethod.GET)
-    public User postForEntityTestParamArray(Integer id, String name) {
+    public User postForEntityTestParamArray(Long id, String name) {
         User user = new User(id, name);
         ResponseEntity<User> userResponseEntity =
                 restTemplate.postForEntity("http://HELLO-SERVICE/postForEntity/paramArray?id={1}&name={2}", user, User.class, id, name);
@@ -88,7 +88,7 @@ public class S1_ConsumerController {
 
     //使用Map发送请求 , 并返回Map对象
     @RequestMapping(value = "/postForEntity/paramMap", method = RequestMethod.GET)
-    public Map postForEntityTestParamMap(Integer id, String name) {
+    public Map postForEntityTestParamMap(Long id, String name) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("id", id);
         paramMap.put("name", name);
@@ -99,7 +99,7 @@ public class S1_ConsumerController {
 
     //使用urlVariables发送POST请求 , 并返回User对象 , 使用该发送发送的对象需要使用@RequestBody接收
     @RequestMapping(value = "/postForObject/paramArray", method = RequestMethod.GET)
-    public User postForObjectTestParamArray(Integer id, String name) {
+    public User postForObjectTestParamArray(Long id, String name) {
         User user = new User(id, name);
         User user1 = restTemplate.postForObject("http://HELLO-SERVICE/postForObject/paramArray?id={1}&name={2}", user, User.class, id, name);
         return user1;
@@ -108,7 +108,7 @@ public class S1_ConsumerController {
     //使用postForLocation
     //和前两者的唯一区别在于返回值是一个URI。该URI返回值体现的是：用于提交完成数据之后的页面跳转，或数据提交完成之后的下一步数据操作URI。
     @RequestMapping(value = "/postForLocation/paramArray", method = RequestMethod.GET)
-    public String postForLocation(Integer id, String name) {
+    public String postForLocation(Long id, String name) {
         User user = new User(id, name);
 
         //TODO 下面这个方法的返回值是null , 暂时不清楚怎么解决
@@ -118,7 +118,7 @@ public class S1_ConsumerController {
 
     //使用urlVariables发送PUT请求 , put()方法没有返回值 , 所以也不需要设置返回的类型
     @RequestMapping(value = "/testPut", method = RequestMethod.GET)
-    public String testPut(Integer id, String name) {
+    public String testPut(Long id, String name) {
         User user = new User(id, name);
         restTemplate.put("http://HELLO-SERVICE/put?id={1}&name={2}", user, id, name);
         return "ok";

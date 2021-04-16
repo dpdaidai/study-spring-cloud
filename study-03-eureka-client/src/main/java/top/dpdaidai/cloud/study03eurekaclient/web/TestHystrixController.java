@@ -28,7 +28,7 @@ public class TestHystrixController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public User postForEntityTestParamArray(@PathVariable int id) throws InterruptedException {
+    public User users(@PathVariable int id) throws InterruptedException {
 
         //设置接口随机阻塞0-2秒 , 当阻塞大于一秒时 , 消费者会触发Hystrix的熔断请求
         int i = new Random().nextInt(2000);
@@ -40,5 +40,11 @@ public class TestHystrixController {
         user.setName("cpt");
         return user;
     }
+
+    @RequestMapping(value = "/postUser", method = RequestMethod.POST)
+    public User postUser(@RequestBody User user) {
+        return user;
+    }
+
 
 }

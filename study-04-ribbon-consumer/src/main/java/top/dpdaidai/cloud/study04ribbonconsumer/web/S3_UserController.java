@@ -117,5 +117,35 @@ public class S3_UserController {
 
     }
 
+    //使用注解的方式开启和清除缓存
+    //https://www.cnblogs.com/hellxz/p/9056806.html
+    //三种方式 :
+    //1  使用getCacheKey方法获取cacheKey
+    //2  使用@CacheKey指定cacheKey
+    //3  使用默认所有参数作为cacheKey
+    @RequestMapping(value = "/testCacheByAnnotation/{id}", method = RequestMethod.GET)
+    public User testCacheByAnnotation(@PathVariable Long id){
+        HystrixRequestContext.initializeContext();
+        //第一次查询
+        User userById = userService.getUserById(id);
+        logger.info("第一次查询 : {}", userById);
+
+        //第二次查询
+        User userById1 = userService.getUserById(id);
+        logger.info("第二次查询 : {}", userById1);
+
+        //移出缓存
+        userService.postUser(userById);
+        logger.info("清理缓存 : {}", userById);
+
+        //第三次查询
+        User userById2 = userService.getUserById(id);
+        logger.info("第三次查询 : {}", userById2);
+
+        return userById2;
+
+    }
+
+
 
 }

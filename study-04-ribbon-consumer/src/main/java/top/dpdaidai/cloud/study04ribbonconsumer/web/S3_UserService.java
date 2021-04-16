@@ -4,6 +4,9 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheKey;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheRemove;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +33,27 @@ public class S3_UserService {
     private static final Logger logger = LoggerFactory.getLogger(S3_UserService.class);
 
     //1  使用HystrixCommand 调用依赖服务client , 这是同步执行
-    @HystrixCommand(fallbackMethod = "defaultUser")
-    public User getUserById(Long id) {
+    @HystrixCommand(fallbackMethod = "defaultUser", commandKey = "userId")
+    //开启缓存
+    @CacheResult(cacheKeyMethod = "getUserByCacheKey")
+    public User getUserById(@CacheKey("id") Long id) {
         User user = restTemplate.getForObject("http://HELLO-SERVICE/users/{1}", User.class, id);
         return user;
     }
+
+    @HystrixCommand
+    //移出缓存
+    @CacheRemove(commandKey = "userId")
+    public User postUser(@CacheKey("id") User user) {
+        User user1 = restTemplate.postForObject("http://HELLO-SERVICE/postUser", user, User.class);
+        return user1;
+    }
+
+    private String getUserByCacheKey(Long id) {
+        System.out.println("清理缓存");
+        return id.toString();
+    }
+
 
     //2 使用HystrixCommand 调用依赖服务client , 这是异步执行
     @HystrixCommand
@@ -63,7 +82,7 @@ public class S3_UserService {
     }
 
     //清除缓存
-    public void flushCache(Long id){
+    public void flushCache(Long id) {
         com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
@@ -114,7 +133,7 @@ public class S3_UserService {
         throwable.printStackTrace();
 
         User user = new User();
-        user.setId(1 / (new Random().nextInt(2) - 1));
+        user.setId(1L / (new Random().nextInt(2) - 1));
         return user;
     }
 
@@ -133,7 +152,7 @@ public class S3_UserService {
         throwable.printStackTrace();
 
         User user = new User();
-        user.setId(1 / (new Random().nextInt(2) - 1));
+        user.setId(1L / (new Random().nextInt(2) - 1));
         return user;
     }
 
