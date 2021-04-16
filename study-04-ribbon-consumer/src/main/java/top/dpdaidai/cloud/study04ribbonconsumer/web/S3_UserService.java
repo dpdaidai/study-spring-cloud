@@ -14,7 +14,6 @@ import rx.Observable;
 import top.dpdaidai.cloud.study04ribbonconsumer.entity.User;
 
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -50,7 +49,7 @@ public class S3_UserService {
     }
 
     //3 使用UserCommand 调用服务 , 这是同步执行
-    public Observable<User> getUserByIdUseUserCommand(Long id) throws ExecutionException, InterruptedException {
+    public Observable<User> getUserByIdUseUserCommand(Long id) {
 
         //1  设置组名 , 命令名
         //2  默认的线程池划分按照命名分组实现的
@@ -63,8 +62,18 @@ public class S3_UserService {
         return observe;
     }
 
+    //清除缓存
+    public void flushCache(Long id){
+        com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserThreadPoolKey"));
+        S3_UserCommand s3_userCommand = new S3_UserCommand(setter, restTemplate, id);
+        s3_userCommand.flushCache(id);
+    }
+
     //4  使用UserCommand 调用服务 , 这是异步执行
-    public Observable<User> getUserByIdUseUserCommandAsync(Long id) throws ExecutionException, InterruptedException {
+    public Observable<User> getUserByIdUseUserCommandAsync(Long id) {
         com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroupAsync"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommandAsync"));
