@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
-import rx.observables.BlockingObservable;
 import top.dpdaidai.cloud.study04ribbonconsumer.entity.User;
 
 import java.util.concurrent.ExecutionException;
@@ -46,28 +45,44 @@ public class S3_UserService {
     }
 
     //3 使用UserCommand 调用服务 , 这是同步执行
-    public User getUserByIdUseUserCommand(Long id) throws ExecutionException, InterruptedException {
+    public Observable<User> getUserByIdUseUserCommand(Long id) throws ExecutionException, InterruptedException {
         com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"));
         Observable<User> observe = new S3_UserCommand(setter, restTemplate, id).observe();
-        BlockingObservable<User> userBlockingObservable = observe.toBlocking();
-        Future<User> userFuture = userBlockingObservable.toFuture();
-        User user = userFuture.get();
-        return user;
+        return observe;
     }
 
     //4  使用UserCommand 调用服务 , 这是异步执行
-    public User getUserByIdUseUserCommandAsync(Long id) throws ExecutionException, InterruptedException {
+    public Observable<User> getUserByIdUseUserCommandAsync(Long id) throws ExecutionException, InterruptedException {
         com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
-                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
-                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"));
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroupAsync"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommandAsync"));
         Observable<User> observe = new S3_UserCommand(setter, restTemplate, id).toObservable();
-        BlockingObservable<User> userBlockingObservable = observe.toBlocking();
-        Future<User> userFuture = userBlockingObservable.toFuture();
-        User user = userFuture.get();
-        return user;
+        return observe;
     }
 
+    //5
+    public Observable<User> getUserByIdA(Long id) {
+        com.netflix.hystrix.HystrixObservableCommand.Setter setter = com.netflix.hystrix.HystrixObservableCommand.Setter
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"));
+        Observable<User> observe = new S3_UserObservableCommand(setter, restTemplate, id).observe();
+        return observe;
+    }
+
+    public Observable<User> getUserByIdB(Long id) {
+        return Observable.create(observer -> {
+            try {
+                if (!observer.isUnsubscribed()) {
+                    User user = restTemplate.getForObject("http://HELLO-SERVICE/users/{1}", User.class, id);
+                    observer.onNext(user);
+                    observer.onCompleted();
+                }
+            } catch (Exception e) {
+                observer.onError(e);
+            }
+        });
+    }
 
 }
