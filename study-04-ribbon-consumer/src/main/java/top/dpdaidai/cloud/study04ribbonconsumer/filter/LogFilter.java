@@ -3,13 +3,11 @@ package top.dpdaidai.cloud.study04ribbonconsumer.filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -35,7 +33,8 @@ public class LogFilter implements Filter {
 
         //打印收到的请求消息
         HttpServletRequest request1 = (HttpServletRequest) servletRequest;
-        if (!request1.getMethod().equalsIgnoreCase("OPTIONS")) {
+        if (!request1.getMethod().equalsIgnoreCase("OPTIONS")
+                && !request1.getRequestURI().equals("/favicon.ico")) {
             logger.info("Request Info:  {}", RequestUtil.requestInfo(request1));
         }
 
