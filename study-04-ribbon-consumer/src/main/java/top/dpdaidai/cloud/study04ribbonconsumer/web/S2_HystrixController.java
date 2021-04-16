@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
  * @Version 1.0
  */
 @RestController
-public class TestHystrixController {
+public class S2_HystrixController {
 
     @Autowired
-    HelloService helloService;
+    S2_HelloService helloService;
 
 
     @RequestMapping(value = "/testHystrix", method = RequestMethod.GET)

@@ -2,9 +2,8 @@ package top.dpdaidai.cloud.study03eurekaclient.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.dpdaidai.cloud.study03eurekaclient.entity.User;
 
 import java.util.Random;
 
@@ -28,5 +27,12 @@ public class TestHystrixController {
         return "testHystrix";
     }
 
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    public User postForEntityTestParamArray(@PathVariable int id) {
+        User user = new User();
+        user.setId(id);
+        user.setName("cpt");
+        return user;
+    }
 
 }

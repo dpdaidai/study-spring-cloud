@@ -22,7 +22,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @RestController
-public class ConsumerController {
+public class S1_ConsumerController {
 
     @Autowired
     RestTemplate restTemplate;

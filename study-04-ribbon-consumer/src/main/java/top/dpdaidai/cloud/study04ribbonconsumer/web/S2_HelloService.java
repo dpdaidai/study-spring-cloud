@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
  * @Version 1.0
  */
 @Service
-public class HelloService {
+public class S2_HelloService {
 
     @Autowired
     RestTemplate restTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(HelloService.class);
+    private static final Logger logger = LoggerFactory.getLogger(S2_HelloService.class);
 
     //断路器 , 当超过hystrix默认的一秒后 , 熔断请求 , 触发回调函数
     //回调函数的参数必须与本方法一致 , 不然会报 FallbackDefinitionException
