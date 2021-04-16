@@ -2,6 +2,7 @@ package top.dpdaidai.cloud.study04ribbonconsumer.web;
 
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import org.slf4j.Logger;
@@ -50,9 +51,14 @@ public class S3_UserService {
 
     //3 使用UserCommand 调用服务 , 这是同步执行
     public Observable<User> getUserByIdUseUserCommand(Long id) throws ExecutionException, InterruptedException {
+
+        //1  设置组名 , 命令名
+        //2  默认的线程池划分按照命名分组实现的
+        //3  也可以使用HystrixThreadPool来对线程池进行设置 , 建议使用这个参数来指定线程池的划分
         com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
-                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"));
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserThreadPoolKey"));
         Observable<User> observe = new S3_UserCommand(setter, restTemplate, id).observe();
         return observe;
     }
