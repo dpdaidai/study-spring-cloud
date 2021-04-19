@@ -54,7 +54,32 @@ public class S4_UserController {
         Thread.sleep(300);
         Future<User> queue3 = s4_userCollapseCommand3.queue();
 
+//                Request Info:  GET /useCollapseCommand?ids=1
+//                ----------start-----------
+//                user : User{id=1, name='cpt'}
+//                user : User{id=2, name='cpt'}
+//                user : User{id=3, name='cpt'}
+//                -----------end----------
+//                ----------start-----------
+//                user : User{id=4, name='cpt'}
+//                -----------end----------
     }
 
+    @RequestMapping(value = "/useCollapseCommandByAnnotation", method = RequestMethod.GET)
+    public void useCollapseCommandByAnnotation(String ids) throws ExecutionException, InterruptedException {
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        Future<User> byAnnotation = userService.findByAnnotation(1L);
+        Future<User> byAnnotation1 = userService.findByAnnotation(2L);
+        Future<User> byAnnotation2 = userService.findByAnnotation(3L);
+        Thread.sleep(300);
+        Future<User> byAnnotation3 = userService.findByAnnotation(4L);
+
+        User s = byAnnotation.get();
+//        System.out.println(byAnnotation);
+//        System.out.println(byAnnotation1);
+//        System.out.println(byAnnotation2);
+//        System.out.println(byAnnotation3);
+
+    }
 
 }

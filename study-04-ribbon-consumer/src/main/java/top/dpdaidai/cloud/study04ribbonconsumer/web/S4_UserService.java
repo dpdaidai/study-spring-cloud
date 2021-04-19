@@ -1,5 +1,8 @@
 package top.dpdaidai.cloud.study04ribbonconsumer.web;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,7 @@ import top.dpdaidai.cloud.study04ribbonconsumer.entity.User;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -38,5 +42,18 @@ public class S4_UserService {
         return Arrays.stream(forObject).collect(Collectors.toList());
     }
 
+    @HystrixCollapser(batchMethod = "findAllByAnnotation",
+            collapserProperties = {@HystrixProperty(name = "timerDelayInMilliseconds", value = "100")})
+    public Future<User> findByAnnotation(Long id) {
+        return null;
+    }
+
+    @HystrixCommand
+    public List<User> findAllByAnnotation(List<Long> ids) {
+        User[] forObject = restTemplate.getForObject("http://HELLO-SERVICE/users?ids={1}", User[].class,
+                StringUtils.join(ids, ","));
+
+        return Arrays.stream(forObject).collect(Collectors.toList());
+    }
 
 }
