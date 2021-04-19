@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import top.dpdaidai.cloud.study03eurekaclient.entity.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -28,7 +30,7 @@ public class TestHystrixController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public User users(@PathVariable int id) throws InterruptedException {
+    public User users(@PathVariable Long id) throws InterruptedException {
 
         //设置接口随机阻塞0-2秒 , 当阻塞大于一秒时 , 消费者会触发Hystrix的熔断请求
         int i = new Random().nextInt(2000);
@@ -46,5 +48,16 @@ public class TestHystrixController {
         return user;
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public List<User> users(@RequestParam List<String> ids) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < ids.size(); i++) {
+            User user = new User();
+            user.setId(Long.valueOf(ids.get(i)));
+            user.setName("cpt");
+            users.add(user);
+        }
+        return users;
+    }
 
 }
