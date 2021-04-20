@@ -25,5 +25,6 @@
         <module>study-02-eureka-server</module>
         <module>study-03-eureka-client</module>
         <module>study-04-ribbon-consumer</module>
+        <module>study-05-hystrix-dashboard</module>
     </modules>
 </project>
