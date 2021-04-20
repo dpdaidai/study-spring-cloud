@@ -82,6 +82,11 @@ public class S3_UserController {
         return user;
     }
 
+    @RequestMapping(value = "/testFallback/{id}", method = RequestMethod.GET)
+    public User testFallback(@PathVariable Long id) {
+        return userService.testFallback(id);
+    }
+
     @RequestMapping(value = "/testCache/{id}", method = RequestMethod.GET)
     public User testCache(@PathVariable Long id) throws ExecutionException, InterruptedException {
 
@@ -89,7 +94,7 @@ public class S3_UserController {
         HystrixRequestContext.initializeContext();
 
         //第一次查询
-        Observable<User> observe = userService.getUserByIdUseUserCommand(id);
+        Observable<User> observe = userService.testCache(id);
         BlockingObservable<User> userBlockingObservable = observe.toBlocking();
         Future<User> userFuture = userBlockingObservable.toFuture();
         User user = userFuture.get();
@@ -97,7 +102,7 @@ public class S3_UserController {
 
 
         //第二次查询
-        Observable<User> observe1 = userService.getUserByIdUseUserCommand(id);
+        Observable<User> observe1 = userService.testCache(id);
         BlockingObservable<User> userBlockingObservable1 = observe1.toBlocking();
         Future<User> userFuture1 = userBlockingObservable1.toFuture();
         User user1 = userFuture1.get();
@@ -107,7 +112,7 @@ public class S3_UserController {
         userService.flushCache(id);
 
         //第三次请求
-        Observable<User> observe2 = userService.getUserByIdUseUserCommand(id);
+        Observable<User> observe2 = userService.testCache(id);
         BlockingObservable<User> userBlockingObservable2 = observe2.toBlocking();
         Future<User> userFuture2 = userBlockingObservable2.toFuture();
         User user2 = userFuture2.get();
@@ -124,14 +129,14 @@ public class S3_UserController {
     //2  使用@CacheKey指定cacheKey
     //3  使用默认所有参数作为cacheKey
     @RequestMapping(value = "/testCacheByAnnotation/{id}", method = RequestMethod.GET)
-    public User testCacheByAnnotation(@PathVariable Long id){
+    public User testCacheByAnnotation(@PathVariable Long id) {
         HystrixRequestContext.initializeContext();
         //第一次查询
-        User userById = userService.getUserById(id);
+        User userById = userService.testCacheByAnnotation(id);
         logger.info("第一次查询 : {}", userById);
 
         //第二次查询
-        User userById1 = userService.getUserById(id);
+        User userById1 = userService.testCacheByAnnotation(id);
         logger.info("第二次查询 : {}", userById1);
 
         //移出缓存
@@ -139,13 +144,12 @@ public class S3_UserController {
         logger.info("清理缓存 : {}", userById);
 
         //第三次查询
-        User userById2 = userService.getUserById(id);
+        User userById2 = userService.testCacheByAnnotation(id);
         logger.info("第三次查询 : {}", userById2);
 
         return userById2;
 
     }
-
 
 
 }

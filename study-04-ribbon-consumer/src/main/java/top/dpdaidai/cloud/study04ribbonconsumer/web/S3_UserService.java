@@ -33,27 +33,11 @@ public class S3_UserService {
     private static final Logger logger = LoggerFactory.getLogger(S3_UserService.class);
 
     //1  使用HystrixCommand 调用依赖服务client , 这是同步执行
-    @HystrixCommand(fallbackMethod = "defaultUser", commandKey = "userId")
-    //开启缓存
-    @CacheResult(cacheKeyMethod = "getUserByCacheKey")
+    @HystrixCommand
     public User getUserById(@CacheKey("id") Long id) {
         User user = restTemplate.getForObject("http://HELLO-SERVICE/users/{1}", User.class, id);
         return user;
     }
-
-    @HystrixCommand
-    //移出缓存
-    @CacheRemove(commandKey = "userId")
-    public User postUser(@CacheKey("id") User user) {
-        User user1 = restTemplate.postForObject("http://HELLO-SERVICE/postUser", user, User.class);
-        return user1;
-    }
-
-    private String getUserByCacheKey(Long id) {
-        System.out.println("清理缓存");
-        return id.toString();
-    }
-
 
     //2 使用HystrixCommand 调用依赖服务client , 这是异步执行
     @HystrixCommand
@@ -81,15 +65,6 @@ public class S3_UserService {
         return observe;
     }
 
-    //清除缓存
-    public void flushCache(Long id) {
-        com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
-                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
-                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
-                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserThreadPoolKey"));
-        S3_UserCommand s3_userCommand = new S3_UserCommand(setter, restTemplate, id);
-        s3_userCommand.flushCache(id);
-    }
 
     //4  使用UserCommand 调用服务 , 这是异步执行
     public Observable<User> getUserByIdUseUserCommandAsync(Long id) {
@@ -121,6 +96,12 @@ public class S3_UserService {
                 observer.onError(e);
             }
         });
+    }
+
+    @HystrixCommand(fallbackMethod = "defaultUser")
+    public User testFallback(Long id) {
+        User user = restTemplate.getForObject("http://HELLO-SERVICE/users/{1}", User.class, id);
+        return user;
     }
 
     //1  如果defaultUser方法不是一个稳定的逻辑 , 它依然可能会发生异常 , 那么也可以在这个方法上再次指定降级服务
@@ -166,4 +147,49 @@ public class S3_UserService {
 
         return new User();
     }
+
+    public Observable<User> testCache(Long id) {
+
+        //1  设置组名 , 命令名
+        //2  默认的线程池划分按照命名分组实现的
+        //3  也可以使用HystrixThreadPool来对线程池进行设置 , 建议使用这个参数来指定线程池的划分
+        com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserThreadPoolKey"));
+        Observable<User> observe = new S3_UserCommand(setter, restTemplate, id).observe();
+        return observe;
+    }
+
+    //清除缓存
+    public void flushCache(Long id) {
+        com.netflix.hystrix.HystrixCommand.Setter setter = com.netflix.hystrix.HystrixCommand.Setter
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("UserCommand"))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserThreadPoolKey"));
+        S3_UserCommand s3_userCommand = new S3_UserCommand(setter, restTemplate, id);
+        s3_userCommand.flushCache(id);
+    }
+
+    @HystrixCommand(commandKey = "userId")
+    //开启缓存
+    @CacheResult(cacheKeyMethod = "getUserByCacheKey")
+    public User testCacheByAnnotation(@CacheKey("id") Long id) {
+        User user = restTemplate.getForObject("http://HELLO-SERVICE/users/{1}", User.class, id);
+        return user;
+    }
+
+    @HystrixCommand
+    //移出缓存
+    @CacheRemove(commandKey = "userId")
+    public User postUser(@CacheKey("id") User user) {
+        User user1 = restTemplate.postForObject("http://HELLO-SERVICE/postUser", user, User.class);
+        return user1;
+    }
+
+    private String getUserByCacheKey(Long id) {
+        System.out.println("取出缓存key");
+        return id.toString();
+    }
+
 }
