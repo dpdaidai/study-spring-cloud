@@ -27,5 +27,6 @@
         <module>study-04-ribbon-consumer</module>
         <module>study-05-hystrix-dashboard</module>
         <module>study-06-turbine</module>
+        <module>study-07-turbine-amqp</module>
     </modules>
 </project>

@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>top.dpdaidai.cloud</groupId>
-    <artifactId>study-04-ribbon-consumer</artifactId>
+    <artifactId>study-07-turbine-amqp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>study-04-ribbon-consumer</name>
+    <name>study-07-turbine-amqp</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
@@ -26,44 +26,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
+            <artifactId>spring-cloud-starter-turbine-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--消费者开启将监控信息输出到RabbitMQ-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-netflix-hystrix-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
