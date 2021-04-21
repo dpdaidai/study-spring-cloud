@@ -62,5 +62,6 @@
         <module>study-05-hystrix-dashboard</module>
         <module>study-06-turbine</module>
         <module>study-07-turbine-amqp</module>
+        <module>study-08-feign-consumer</module>
     </modules>
 </project>
