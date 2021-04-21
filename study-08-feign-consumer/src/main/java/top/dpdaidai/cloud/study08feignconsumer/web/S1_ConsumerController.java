@@ -3,6 +3,7 @@ package top.dpdaidai.cloud.study08feignconsumer.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.dpdaidai.cloud.study08feignconsumer.entity.User;
+import top.dpdaidai.cloud.study08feignconsumer.service.S1_HelloService;
 
 /**
  * @Author chenpantao
@@ -10,10 +11,10 @@ import top.dpdaidai.cloud.study08feignconsumer.entity.User;
  * @Version 1.0
  */
 @RestController
-public class ConsumerController {
+public class S1_ConsumerController {
 
     @Autowired
-    HelloService helloService;
+    S1_HelloService helloService;
 
     @RequestMapping(value = "/testFeign", method = RequestMethod.GET)
     public String testFeign() {

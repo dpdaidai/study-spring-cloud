@@ -1,8 +1,7 @@
-package top.dpdaidai.cloud.study08feignconsumer.web;
+package top.dpdaidai.cloud.study09serviceapi.web;
 
-import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import top.dpdaidai.cloud.study08feignconsumer.entity.User;
+import top.dpdaidai.cloud.study09serviceapi.entity.User;
 
 /**
  * @Author chenpantao
@@ -10,7 +9,7 @@ import top.dpdaidai.cloud.study08feignconsumer.entity.User;
  * @Version 1.0
  */
 //该注解标记本service对应的服务实例
-@FeignClient(value = "hello-service", path = "feign")
+@RequestMapping("/refactor")
 public interface HelloService {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
@@ -22,7 +21,7 @@ public interface HelloService {
     @RequestMapping(value = "/header", method = RequestMethod.GET)
     User header(@RequestHeader("id") Long id, @RequestHeader("name") String name);
 
-    @RequestMapping(value = "body", method = RequestMethod.GET)
+    @RequestMapping(value = "/body", method = RequestMethod.POST)
     String body(@RequestBody User user);
 
 
