@@ -13,6 +13,10 @@ import top.dpdaidai.cloud.study08feignconsumer.entity.User;
 @FeignClient(value = "HELLO-SERVICE", path = "feign")
 public interface S1_HelloService {
 
+    /**
+     * 修改方法名 , 避免和S2_HelloService的hello()方法共用一个CommandKey
+     * @return
+     */
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     String ss();
 
