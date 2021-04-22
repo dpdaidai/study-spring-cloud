@@ -18,7 +18,7 @@ public class S2_RefactorController {
     S2_HelloService helloService;
 
     @RequestMapping(value = "/testFeign", method = RequestMethod.GET)
-    public String testFeign() {
+    public String testFeign() throws InterruptedException {
         return helloService.hello();
     }
 

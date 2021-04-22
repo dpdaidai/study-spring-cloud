@@ -13,7 +13,7 @@ import top.dpdaidai.cloud.study09serviceapi.entity.User;
 public interface HelloService {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    String hello();
+    String hello() throws InterruptedException;
 
     @RequestMapping(value = "/param", method = RequestMethod.GET)
     String param(@RequestParam("name") String name);

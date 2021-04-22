@@ -18,7 +18,7 @@ public class S1_ConsumerController {
 
     @RequestMapping(value = "/testFeign", method = RequestMethod.GET)
     public String testFeign() {
-        return helloService.hello();
+        return helloService.ss();
     }
 
     //测试feign使用 @RequestParam 传参

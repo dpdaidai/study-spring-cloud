@@ -14,7 +14,7 @@ import top.dpdaidai.cloud.study08feignconsumer.entity.User;
 public interface S1_HelloService {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    String hello();
+    String ss();
 
     @RequestMapping(value = "/param", method = RequestMethod.GET)
     String param(@RequestParam("name") String name);
