@@ -10,7 +10,7 @@ import top.dpdaidai.cloud.study08feignconsumer.entity.User;
  * @Version 1.0
  */
 //该注解标记本service对应的服务实例
-@FeignClient(value = "hello-service", path = "feign")
+@FeignClient(value = "HELLO-SERVICE", path = "feign")
 public interface S1_HelloService {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
