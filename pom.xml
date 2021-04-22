@@ -64,5 +64,6 @@
         <module>study-07-turbine-amqp</module>
         <module>study-08-feign-consumer</module>
         <module>study-09-service-api</module>
+        <module>study-10-api-gateway</module>
     </modules>
 </project>
