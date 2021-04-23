@@ -22,7 +22,7 @@ public class ThrowExceptionFilter extends ZuulFilter {
     //post阶段的异常能够被errorFilter捕获 , 但是却无法再被包装后返回
     @Override
     public String filterType() {
-        return "pre";
+        return "post";
     }
 
     @Override

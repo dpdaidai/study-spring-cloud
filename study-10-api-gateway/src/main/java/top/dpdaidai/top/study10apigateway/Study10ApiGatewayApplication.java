@@ -1,10 +1,12 @@
 package top.dpdaidai.top.study10apigateway;
 
+import com.netflix.zuul.FilterProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
 import org.springframework.context.annotation.Bean;
+import top.dpdaidai.top.study10apigateway.config.ExtendFilterProcessor;
 
 @SpringBootApplication
 //开启zuul的api网关功能
@@ -27,6 +29,7 @@ public class Study10ApiGatewayApplication {
 
 
     public static void main(String[] args) {
+        FilterProcessor.setProcessor(new ExtendFilterProcessor());
         SpringApplication.run(Study10ApiGatewayApplication.class, args);
     }
 
