@@ -66,5 +66,6 @@
         <module>study-09-service-api</module>
         <module>study-10-api-gateway</module>
         <module>study-11-config-server</module>
+        <module>study-12-config-client</module>
     </modules>
 </project>
