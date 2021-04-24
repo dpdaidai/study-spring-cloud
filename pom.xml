@@ -65,5 +65,6 @@
         <module>study-08-feign-consumer</module>
         <module>study-09-service-api</module>
         <module>study-10-api-gateway</module>
+        <module>study-11-config-server</module>
     </modules>
 </project>
