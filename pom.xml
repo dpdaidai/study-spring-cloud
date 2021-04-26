@@ -68,5 +68,6 @@
         <module>study-11-config-server</module>
         <module>study-12-config-client</module>
         <module>study-13-api-gateway-dynamic-route</module>
+        <module>study-14-api-gateway-dynamic-filter</module>
     </modules>
 </project>
