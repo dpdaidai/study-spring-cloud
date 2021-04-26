@@ -59,6 +59,11 @@
         </dependency>
         <!--为客户端从Config Server获取配置设置重置机制-->
 
+        <!--监控模块包含 /refresh端点的实现, 该端点用于实现客户端应用配置信息的重新获取和刷新-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
     </dependencies>
 
