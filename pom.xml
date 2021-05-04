@@ -71,5 +71,7 @@
         <module>study-14-api-gateway-dynamic-filter</module>
         <module>study-15-rabbitmq-hello</module>
         <module>study-16-steam-hello</module>
+        <module>study-17-stream-producer</module>
+
     </modules>
 </project>

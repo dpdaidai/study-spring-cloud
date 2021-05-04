@@ -23,11 +23,11 @@ public class InputSender {
 
     private static final Logger logger = LoggerFactory.getLogger(InputSender.class);
 
-    @Bean
-    @InboundChannelAdapter(value = InputSink.INPUT, poller = @Poller(fixedDelay = "2000"))
-    public MessageSource<Date> timerMessageSource() {
-        return () -> new GenericMessage<>(new Date());
-    }
+//    @Bean
+//    @InboundChannelAdapter(value = InputSink.INPUT, poller = @Poller(fixedDelay = "2000"))
+//    public MessageSource<Date> timerMessageSource() {
+//        return () -> new GenericMessage<>(new Date());
+//    }
 
     @Transformer(inputChannel = InputSink.INPUT, outputChannel = InputSink.INPUT)
     public Object transform(Date message) {
