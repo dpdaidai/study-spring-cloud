@@ -70,5 +70,6 @@
         <module>study-13-api-gateway-dynamic-route</module>
         <module>study-14-api-gateway-dynamic-filter</module>
         <module>study-15-rabbitmq-hello</module>
+        <module>study-16-steam-hello</module>
     </modules>
 </project>
