@@ -12,16 +12,16 @@ import org.springframework.cloud.stream.messaging.Sink;
  * @Version 1.0
  */
 //该注解用来指定一个或者多个定义了@Input @OutPut 注解的接口 , 以此实现对消息通道Channel的绑定
-@EnableBinding(Sink.class)
+//@EnableBinding(Sink.class)
 public class SinkReceiver {
 
     private static final Logger logger = LoggerFactory.getLogger(SinkReceiver.class);
 
     //该注解将被修饰的方法注册为消息中间件上数据流的事件监听器 , 属性值为监听的消息通道名
-    @StreamListener(Sink.INPUT)
-    public void receive(Object payLoad) {
-        logger.info("receive : {}", payLoad);
-    }
+//    @StreamListener(Sink.INPUT)
+//    public void receive(Object payLoad) {
+//        logger.info("receive : {}", payLoad);
+//    }
 
 
 }

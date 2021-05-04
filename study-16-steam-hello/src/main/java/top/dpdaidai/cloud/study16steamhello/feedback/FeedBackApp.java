@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 
-@EnableBinding(value = {MyProcessor.class})
+//@EnableBinding(value = {MyProcessor.class})
 public class FeedBackApp {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedBackApp.class);
@@ -37,10 +37,10 @@ public class FeedBackApp {
     /**
      * 使用原生注解@ServiceActivator反馈消息
      */
-    @ServiceActivator(inputChannel = MyProcessor.INPUT, outputChannel = MyProcessor.OUTPUT)
-    public Object receive(Object payLoad) {
-        logger.info("receive my_input : {}", payLoad);
-        return "From " + MyProcessor.INPUT + " channel : return - " + MyProcessor.OUTPUT;
-    }
+//    @ServiceActivator(inputChannel = MyProcessor.INPUT, outputChannel = MyProcessor.OUTPUT)
+//    public Object receive(Object payLoad) {
+//        logger.info("receive my_input : {}", payLoad);
+//        return "From " + MyProcessor.INPUT + " channel : return - " + MyProcessor.OUTPUT;
+//    }
 
 }
