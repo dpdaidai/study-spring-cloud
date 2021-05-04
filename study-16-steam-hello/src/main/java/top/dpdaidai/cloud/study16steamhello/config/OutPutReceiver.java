@@ -16,8 +16,8 @@ public class OutPutReceiver {
     private static final Logger logger = LoggerFactory.getLogger(OutPutReceiver.class);
 
     @StreamListener(OutputSender.OUTPUT)
-    public void receive(Object payLoad) {
-        logger.info("receive output : {}", payLoad);
+    public void receive(User user) {
+        logger.info("receive output : {}", user);
     }
 
 }
