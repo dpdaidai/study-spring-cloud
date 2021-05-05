@@ -72,6 +72,8 @@
         <module>study-15-rabbitmq-hello</module>
         <module>study-16-steam-hello</module>
         <module>study-17-stream-producer</module>
+        <module>study-18-trace-1</module>
+        <module>study-19-trace-2</module>
 
     </modules>
 </project>
