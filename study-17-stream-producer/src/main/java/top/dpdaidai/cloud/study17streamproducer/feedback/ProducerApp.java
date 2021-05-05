@@ -17,20 +17,20 @@ import java.util.Date;
  * @Date 5/4/21 10:19 PM
  * @Version 1.0
  */
-//@EnableBinding(value = {MyProcessor.class})
-//public class ProducerApp {
-//
-//    private static final Logger logger = LoggerFactory.getLogger(ProducerApp.class);
-//
-//    @Bean
-//    @InboundChannelAdapter(value = MyProcessor.OUTPUT, poller = @Poller(fixedDelay = "2000"))
-//    public MessageSource<Date> timerMessageSource() {
-//        return () -> new GenericMessage<>(new Date());
-//    }
-//
-//    @StreamListener(MyProcessor.INPUT)
-//    public void receive(Object payLoad) {
-//        logger.info("receive " + MyProcessor.INPUT + " : {}", payLoad);
-//    }
-//
-//}
+@EnableBinding(value = {MyProcessor.class})
+public class ProducerApp {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProducerApp.class);
+
+    @Bean
+    @InboundChannelAdapter(value = MyProcessor.OUTPUT, poller = @Poller(fixedDelay = "2000"))
+    public MessageSource<Date> timerMessageSource() {
+        return () -> new GenericMessage<>(new Date());
+    }
+
+    @StreamListener(MyProcessor.INPUT)
+    public void receive(Object payLoad) {
+        logger.info("receive " + MyProcessor.INPUT + " : {}", payLoad);
+    }
+
+}

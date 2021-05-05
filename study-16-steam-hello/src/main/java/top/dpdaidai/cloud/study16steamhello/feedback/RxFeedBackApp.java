@@ -13,19 +13,19 @@ import java.util.Date;
  * @Date 5/4/21 11:00 PM
  * @Version 1.0
  */
-@EnableRxJavaProcessor
-public class RxFeedBackApp {
-
-
-    private static final Logger logger = LoggerFactory.getLogger(RxFeedBackApp.class);
-
-    @Bean
-    public RxJavaProcessor<Date, String> processor() {
-        return inputStream -> inputStream.map(data -> {
-            logger.info("Receive : " + data);
-            return data;
-        }).buffer(5).map(data -> String.valueOf("From input Channel Return -" + data));
-    }
-
-
-}
+//@EnableRxJavaProcessor
+//public class RxFeedBackApp {
+//
+//
+//    private static final Logger logger = LoggerFactory.getLogger(RxFeedBackApp.class);
+//
+//    @Bean
+//    public RxJavaProcessor<Date, String> processor() {
+//        return inputStream -> inputStream.map(data -> {
+//            logger.info("Receive : " + data);
+//            return data;
+//        }).buffer(5).map(data -> String.valueOf("From input Channel Return -" + data));
+//    }
+//
+//
+//}

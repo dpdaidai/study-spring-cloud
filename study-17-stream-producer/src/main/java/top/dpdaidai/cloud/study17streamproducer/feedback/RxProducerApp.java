@@ -18,20 +18,20 @@ import java.util.Date;
  * @Date 5/4/21 10:19 PM
  * @Version 1.0
  */
-@EnableBinding(value = {Processor.class})
-public class RxProducerApp {
-
-    private static final Logger logger = LoggerFactory.getLogger(RxProducerApp.class);
-
-    @Bean
-    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "2000"))
-    public MessageSource<Date> timerMessageSource() {
-        return () -> new GenericMessage<>(new Date());
-    }
-
-    @StreamListener(Processor.INPUT)
-    public void receive(Object payLoad) {
-        logger.info("receive " + Processor.INPUT + " : {}", payLoad);
-    }
-
-}
+//@EnableBinding(value = {Processor.class})
+//public class RxProducerApp {
+//
+//    private static final Logger logger = LoggerFactory.getLogger(RxProducerApp.class);
+//
+//    @Bean
+//    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "2000"))
+//    public MessageSource<Date> timerMessageSource() {
+//        return () -> new GenericMessage<>(new Date());
+//    }
+//
+//    @StreamListener(Processor.INPUT)
+//    public void receive(Object payLoad) {
+//        logger.info("receive " + Processor.INPUT + " : {}", payLoad);
+//    }
+//
+//}

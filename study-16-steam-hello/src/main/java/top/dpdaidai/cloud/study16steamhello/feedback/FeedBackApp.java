@@ -3,7 +3,9 @@ package top.dpdaidai.cloud.study16steamhello.feedback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 
-//@EnableBinding(value = {MyProcessor.class})
+@EnableBinding(value = {MyProcessor.class})
 public class FeedBackApp {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedBackApp.class);
@@ -27,12 +29,12 @@ public class FeedBackApp {
      * @param payLoad
      * @return
      */
-//    @StreamListener(MyProcessor.INPUT)
-//    @SendTo(MyProcessor.OUTPUT)
-//    public Object receive(Object payLoad) {
-//        logger.info("receive my_input : {}", payLoad);
-//        return "From " + MyProcessor.INPUT + " channel : return - " + MyProcessor.OUTPUT;
-//    }
+    @StreamListener(MyProcessor.INPUT)
+    @SendTo(MyProcessor.OUTPUT)
+    public Object receive(Object payLoad) {
+        logger.info("receive my_input : {}", payLoad);
+        return "From " + MyProcessor.INPUT + " channel : return - " + payLoad;
+    }
 
     /**
      * 使用原生注解@ServiceActivator反馈消息
