@@ -47,9 +47,20 @@
             <!--<artifactId>logstash-logback-encoder</artifactId>-->
             <!--<version>4.6</version>-->
         <!--</dependency>-->
+
+        <!-- 使用sleuth-stream 需要将这个依赖删除 , 否着会冲突 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-sleuth-zipkin</artifactId>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+            <artifactId>spring-cloud-sleuth-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
     </dependencies>
 
